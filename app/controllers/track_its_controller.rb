@@ -1,0 +1,2 @@
+class TrackItsController < ApplicationController
+end
