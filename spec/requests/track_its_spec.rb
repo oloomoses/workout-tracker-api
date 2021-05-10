@@ -28,7 +28,7 @@ RSpec.describe 'TrackIts', type: :request do
       end
 
       it 'returns a not found message' do
-        expect(response.body).to match(/Couldn't find workout/)
+        expect(response.body).to include("Couldn't find Workout")
       end
     end
   end
@@ -55,14 +55,14 @@ RSpec.describe 'TrackIts', type: :request do
       end
 
       it 'returns a not found message' do
-        expect(response.body).to match(/Couldn't find track_it/)
+        expect(response.body).to include("Couldn't find TrackIt")
       end
     end
   end
 
   # Test suite for PUT /workouts/:workout_id/track_its
   describe 'POST /workouts/:workout_id/track_its' do
-    let(:valid_attributes) { { name: 'Visit Narnia', done: false } }
+    let(:valid_attributes) { { date: Date.today, description: 'Test description', minutes_recorded: 10 } }
 
     context 'when request attributes are valid' do
       before { post "/workouts/#{workout_id}/track_its", params: valid_attributes }
@@ -80,7 +80,8 @@ RSpec.describe 'TrackIts', type: :request do
       end
 
       it 'returns a failure message' do
-        expect(response.body).to match(/Validation failed: Name can't be blank/)
+        expect(response.body)
+          .to include("Validation failed: Date can't be blank, Description can't be blank, Minutes recorded can't be blank")
       end
     end
   end
@@ -110,7 +111,7 @@ RSpec.describe 'TrackIts', type: :request do
       end
 
       it 'returns a not found message' do
-        expect(response.body).to match(/Couldn't find track_it/)
+        expect(response.body).to include("Couldn't find TrackIt")
       end
     end
   end
