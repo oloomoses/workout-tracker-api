@@ -1,5 +1,5 @@
 class WorkoutsController < ApplicationController
-  before_action :set_workout, only: [:show, :update, :destroy]
+  before_action :set_workout, only: %i[show update destroy]
 
   def index
     @workouts = Workout.all

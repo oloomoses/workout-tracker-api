@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Workouts", type: :request do
+RSpec.describe 'Workouts', type: :request do
   let!(:workouts) { create_list(:workout, 10) }
   let(:workout_id) { workouts.first.id }
 
