@@ -23,6 +23,8 @@ gem 'rubocop', '>= 1.0', '< 2.0'
 gem 'rubocop-faker'
 gem 'rubocop-rspec', require: false
 
+gem 'bcrypt', '~> 3.1', '>= 3.1.16'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 
