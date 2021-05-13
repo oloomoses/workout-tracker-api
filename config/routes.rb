@@ -3,4 +3,6 @@ Rails.application.routes.draw do
   resources :workouts do
     resources :track_its
   end
+  post 'signup', to: 'users#create'
+  post 'auth/login', to: 'authentication#authenticate'
 end
