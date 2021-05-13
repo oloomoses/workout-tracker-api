@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 2021_05_11_173904) do
     t.string "icon"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "created_by"
+    t.integer "created_by"
   end
 
   add_foreign_key "track_its", "workouts"

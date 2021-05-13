@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Workouts', type: :request do
-  let!(:workouts) { create_list(:workout, 10) }
+  let(:user) { create(:user) }
+  let!(:workouts) { create_list(:workout, 10, created_by: user.id) }
   let(:workout_id) { workouts.first.id }
 
   # Test suite for GET /workouts
@@ -51,7 +52,7 @@ RSpec.describe 'Workouts', type: :request do
   # Test suite for POST /workouts
   describe 'POST /workouts' do
     # valid payload
-    let(:valid_attributes) { { name: 'Morning run', icon: 'icon' } }
+    let(:valid_attributes) { { name: 'Morning run', icon: 'icon', created_by: user.id } }
 
     context 'when the request is valid' do
       before { post '/workouts', params: valid_attributes }
@@ -80,7 +81,7 @@ RSpec.describe 'Workouts', type: :request do
 
   # Test suite for PUT /workouts/:id
   describe 'PUT /workouts/:id' do
-    let(:valid_attributes) { { name: 'Shopping' } }
+    let(:valid_attributes) { { name: 'Shopping', created_by: user.id } }
 
     context 'when the record exists' do
       before { put "/workouts/#{workout_id}", params: valid_attributes }
