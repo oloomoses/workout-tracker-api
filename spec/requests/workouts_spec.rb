@@ -4,11 +4,12 @@ RSpec.describe 'Workouts', type: :request do
   let(:user) { create(:user) }
   let!(:workouts) { create_list(:workout, 10, created_by: user.id) }
   let(:workout_id) { workouts.first.id }
+  let(:headers) { valid_headers }
 
   # Test suite for GET /workouts
   describe 'GET /workouts' do
     # make HTTP get request before each example
-    before { get '/workouts' }
+    before { get '/workouts', params: {}, headers: headers }
 
     it 'returns workouts' do
       # Note `json` is a custom helper to parse JSON responses
@@ -23,7 +24,7 @@ RSpec.describe 'Workouts', type: :request do
 
   # Test suite for GET /workouts/:id
   describe 'GET /workouts/:id' do
-    before { get "/workouts/#{workout_id}" }
+    before { get "/workouts/#{workout_id}", params: {}, headers: headers }
 
     context 'when the record exists' do
       it 'returns the workouts' do
@@ -52,10 +53,10 @@ RSpec.describe 'Workouts', type: :request do
   # Test suite for POST /workouts
   describe 'POST /workouts' do
     # valid payload
-    let(:valid_attributes) { { name: 'Morning run', icon: 'icon', created_by: user.id } }
+    let(:valid_attributes) { { name: 'Morning run', created_by: user.id }.to_json }
 
     context 'when the request is valid' do
-      before { post '/workouts', params: valid_attributes }
+      before { post '/workouts', params: valid_attributes, headers: headers }
 
       it 'creates a workout' do
         expect(json['name']).to eq('Morning run')
@@ -67,24 +68,25 @@ RSpec.describe 'Workouts', type: :request do
     end
 
     context 'when the request is invalid' do
-      before { post '/workouts', params: { icon: 'Foobar' } }
+      let(:invalid_attributes) { { icon: 'Foobar' }.to_json }
+      before { post '/workouts', params: invalid_attributes, headers: headers }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
       end
 
       it 'returns a validation failure message' do
-        expect(response.body).to include("Validation failed: Name can't be blank")
+        expect(json['message']).to match(/Validation failed: Name can't be blank/)
       end
     end
   end
 
   # Test suite for PUT /workouts/:id
   describe 'PUT /workouts/:id' do
-    let(:valid_attributes) { { name: 'Shopping', created_by: user.id } }
+    let(:valid_attributes) { { name: 'Shopping', created_by: user.id }.to_json }
 
     context 'when the record exists' do
-      before { put "/workouts/#{workout_id}", params: valid_attributes }
+      before { put "/workouts/#{workout_id}", params: valid_attributes, headers: headers }
 
       it 'updates the record' do
         expect(response.body).to be_empty
@@ -98,7 +100,7 @@ RSpec.describe 'Workouts', type: :request do
 
   # Test suite for DELETE /workouts/:id
   describe 'DELETE /workouts/:id' do
-    before { delete "/workouts/#{workout_id}" }
+    before { delete "/workouts/#{workout_id}", params: {}, headers: headers }
 
     it 'returns status code 204' do
       expect(response).to have_http_status(204)

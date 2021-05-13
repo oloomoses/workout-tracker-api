@@ -1,14 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe 'TrackIts', type: :request do
-  let!(:workout) { create(:workout) }
+  let(:user) { create(:user) }
+  let!(:workout) { create(:workout, created_by: user.id) }
   let!(:track_its) { create_list(:track_it, 20, workout_id: workout.id) }
   let(:workout_id) { workout.id }
   let(:id) { track_its.first.id }
+  let(:headers) { valid_headers }
 
   # Test suite for GET /workouts/:workout_id/track_its
   describe 'GET /workouts/:workout_id/track_its' do
-    before { get "/workouts/#{workout_id}/track_its" }
+    before { get "/workouts/#{workout_id}/track_its", params: {}, headers: headers }
 
     context 'when workout exists' do
       it 'returns status code 200' do
@@ -35,7 +37,7 @@ RSpec.describe 'TrackIts', type: :request do
 
   # Test suite for GET /workouts/:workout_id/track_its/:id
   describe 'GET /workouts/:workout_id/track_its/:id' do
-    before { get "/workouts/#{workout_id}/track_its/#{id}" }
+    before { get "/workouts/#{workout_id}/track_its/#{id}", params: {}, headers: headers }
 
     context 'when workout track_it exists' do
       it 'returns status code 200' do
@@ -62,10 +64,10 @@ RSpec.describe 'TrackIts', type: :request do
 
   # Test suite for PUT /workouts/:workout_id/track_its
   describe 'POST /workouts/:workout_id/track_its' do
-    let(:valid_attributes) { { date: Date.today, description: 'Test description', minutes_recorded: 10 } }
+    let(:valid_attributes) { { date: Date.today, description: 'Test description', minutes_recorded: 10 }.to_json }
 
     context 'when request attributes are valid' do
-      before { post "/workouts/#{workout_id}/track_its", params: valid_attributes }
+      before { post "/workouts/#{workout_id}/track_its", params: valid_attributes, headers: headers }
 
       it 'returns status code 201' do
         expect(response).to have_http_status(201)
@@ -73,7 +75,7 @@ RSpec.describe 'TrackIts', type: :request do
     end
 
     context 'when an invalid request' do
-      before { post "/workouts/#{workout_id}/track_its", params: {} }
+      before { post "/workouts/#{workout_id}/track_its", params: {}, headers: headers }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -88,9 +90,9 @@ RSpec.describe 'TrackIts', type: :request do
 
   # Test suite for PUT /workouts/:workout_id/track_its/:id
   describe 'PUT /workouts/:workout_id/track_its/:id' do
-    let(:valid_attributes) { { date: Date.today, description: 'Test description', minutes_recorded: 10 } }
+    let(:valid_attributes) { { date: Date.today, description: 'Test description', minutes_recorded: 10 }.to_json }
 
-    before { put "/workouts/#{workout_id}/track_its/#{id}", params: valid_attributes }
+    before { put "/workouts/#{workout_id}/track_its/#{id}", params: valid_attributes, headers: headers }
 
     context 'when track_it exists' do
       it 'returns status code 204' do
@@ -118,7 +120,7 @@ RSpec.describe 'TrackIts', type: :request do
 
   # Test suite for DELETE /workouts/:id
   describe 'DELETE /workouts/:id' do
-    before { delete "/workouts/#{workout_id}/track_its/#{id}" }
+    before { delete "/workouts/#{workout_id}/track_its/#{id}", params: {}, headers: headers }
 
     it 'returns status code 204' do
       expect(response).to have_http_status(204)
