@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe 'TrackIts', type: :request do
   let(:user) { create(:user) }
-  let!(:workout) { create(:workout, created_by: user.id) }
-  let!(:track_its) { create_list(:track_it, 20, workout_id: workout.id) }
+  let!(:workout) { create(:workout) }
+  let!(:track_its) { create_list(:track_it, 20, workout_id: workout.id, user_id: user.id) }
   let(:workout_id) { workout.id }
   let(:id) { track_its.first.id }
   let(:headers) { valid_headers }
@@ -64,7 +64,8 @@ RSpec.describe 'TrackIts', type: :request do
 
   # Test suite for PUT /workouts/:workout_id/track_its
   describe 'POST /workouts/:workout_id/track_its' do
-    let(:valid_attributes) { { date: Date.today, description: 'Test description', minutes_recorded: 10 }.to_json }
+    let(:valid_attributes) { { date: Date.today, description: 'Test description', minutes_recorded: 10, user_id: user.id }.to_json }
+    let(:invalid_attributes) { { user_id: user.id }.to_json }
 
     context 'when request attributes are valid' do
       before { post "/workouts/#{workout_id}/track_its", params: valid_attributes, headers: headers }
@@ -75,7 +76,7 @@ RSpec.describe 'TrackIts', type: :request do
     end
 
     context 'when an invalid request' do
-      before { post "/workouts/#{workout_id}/track_its", params: {}, headers: headers }
+      before { post "/workouts/#{workout_id}/track_its", params: invalid_attributes, headers: headers }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)

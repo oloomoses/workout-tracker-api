@@ -2,12 +2,12 @@ class WorkoutsController < ApplicationController
   before_action :set_workout, only: %i[show update destroy]
 
   def index
-    @workouts = current_user.workouts
+    @workouts = Workout.all
     json_response(@workouts)
   end
 
   def create
-    @workout = current_user.workouts.create!(workout_params)
+    @workout = Workout.create!(workout_params)
     json_response(@workout, :created)
   end
 

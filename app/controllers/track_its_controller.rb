@@ -11,7 +11,7 @@ class TrackItsController < ApplicationController
   end
 
   def create
-    @workout.track_its.create!(track_it_params)
+    @workout.track_its.create!(track_it_params.merge(user_id: current_user.id))
     json_response(@workout, :created)
   end
 

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Workouts', type: :request do
   let(:user) { create(:user) }
-  let!(:workouts) { create_list(:workout, 10, created_by: user.id) }
+  let!(:workouts) { create_list(:workout, 10) }
   let(:workout_id) { workouts.first.id }
   let(:headers) { valid_headers }
 
@@ -53,7 +53,7 @@ RSpec.describe 'Workouts', type: :request do
   # Test suite for POST /workouts
   describe 'POST /workouts' do
     # valid payload
-    let(:valid_attributes) { { name: 'Morning run', created_by: user.id }.to_json }
+    let(:valid_attributes) { { name: 'Morning run' }.to_json }
 
     context 'when the request is valid' do
       before { post '/workouts', params: valid_attributes, headers: headers }
@@ -83,7 +83,7 @@ RSpec.describe 'Workouts', type: :request do
 
   # Test suite for PUT /workouts/:id
   describe 'PUT /workouts/:id' do
-    let(:valid_attributes) { { name: 'Shopping', created_by: user.id }.to_json }
+    let(:valid_attributes) { { name: 'Shopping' }.to_json }
 
     context 'when the record exists' do
       before { put "/workouts/#{workout_id}", params: valid_attributes, headers: headers }

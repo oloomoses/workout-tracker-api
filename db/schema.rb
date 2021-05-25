@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_11_173904) do
+ActiveRecord::Schema.define(version: 2021_05_25_205423) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,8 @@ ActiveRecord::Schema.define(version: 2021_05_11_173904) do
     t.bigint "workout_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_track_its_on_user_id"
     t.index ["workout_id"], name: "index_track_its_on_workout_id"
   end
 
@@ -38,8 +40,8 @@ ActiveRecord::Schema.define(version: 2021_05_11_173904) do
     t.string "icon"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "created_by"
   end
 
+  add_foreign_key "track_its", "users"
   add_foreign_key "track_its", "workouts"
 end
