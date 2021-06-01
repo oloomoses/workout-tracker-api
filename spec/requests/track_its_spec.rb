@@ -64,7 +64,7 @@ RSpec.describe 'TrackIts', type: :request do
 
   # Test suite for PUT /workouts/:workout_id/track_its
   describe 'POST /workouts/:workout_id/track_its' do
-    let(:valid_attributes) { { date: Date.today, description: 'Test description', minutes_recorded: 10, user_id: user.id }.to_json }
+    let(:valid_attributes) { { calories: 2000, minutes_recorded: 10, user_id: user.id }.to_json }
     let(:invalid_attributes) { { user_id: user.id }.to_json }
 
     context 'when request attributes are valid' do
@@ -84,14 +84,14 @@ RSpec.describe 'TrackIts', type: :request do
 
       it 'returns a failure message' do
         expect(response.body)
-          .to include("Validation failed: Date can't be blank, Description can't be blank, Minutes recorded can't be blank")
+          .to include("Validation failed: Calories can't be blank, Minutes recorded can't be blank")
       end
     end
   end
 
   # Test suite for PUT /workouts/:workout_id/track_its/:id
   describe 'PUT /workouts/:workout_id/track_its/:id' do
-    let(:valid_attributes) { { date: Date.today, description: 'Test description', minutes_recorded: 10 }.to_json }
+    let(:valid_attributes) { { calories: 2000, minutes_recorded: 10 }.to_json }
 
     before { put "/workouts/#{workout_id}/track_its/#{id}", params: valid_attributes, headers: headers }
 
@@ -102,7 +102,7 @@ RSpec.describe 'TrackIts', type: :request do
 
       it 'updates the track_it' do
         updated_track_it = TrackIt.find(id)
-        expect(updated_track_it.description).to match(/Test description/)
+        expect(updated_track_it.calories).to match(2000)
       end
     end
 

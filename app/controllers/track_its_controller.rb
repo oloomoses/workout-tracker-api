@@ -28,7 +28,7 @@ class TrackItsController < ApplicationController
   private
 
   def track_it_params
-    params.permit(:date, :description, :minutes_recorded)
+    params.permit(:calories, :minutes_recorded)
   end
 
   def set_workout

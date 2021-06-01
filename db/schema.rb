@@ -16,8 +16,7 @@ ActiveRecord::Schema.define(version: 2021_05_25_205423) do
   enable_extension "plpgsql"
 
   create_table "track_its", force: :cascade do |t|
-    t.date "date"
-    t.text "description"
+    t.integer "calories"
     t.integer "minutes_recorded"
     t.bigint "workout_id", null: false
     t.datetime "created_at", precision: 6, null: false
