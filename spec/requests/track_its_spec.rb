@@ -120,7 +120,7 @@ RSpec.describe 'TrackIts', type: :request do
   end
 
   # Test suite for DELETE /workouts/:id
-  describe 'DELETE /workouts/:id' do
+  describe 'DELETE /workouts/:workout_id/track_its/:id' do
     before { delete "/workouts/#{workout_id}/track_its/#{id}", params: {}, headers: headers }
 
     it 'returns status code 204' do
