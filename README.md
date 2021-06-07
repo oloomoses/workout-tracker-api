@@ -8,7 +8,7 @@ This project is part of my Full Stack web application that can help users to kee
 - [Client App](https://agitated-heyrovsky-eb2953.netlify.app)
 
 ## Video Presentation
-[Link to be added]()
+[Link](https://www.loom.com/share/0451a1e05e8a4190b14797b782a5220c)
 
 ## Built With
 
@@ -34,7 +34,7 @@ The API will expose the following RESTful endpoints.
 | DELETE /workouts/:workout_id/track_its/:id   | Delete trackit               |
 
 ## API Documentation
-[Workout API to be added]()
+[Workout API](https://documenter.getpostman.com/view/15738055/TzY6AaUX)
 
 ## Getting Started
 

@@ -8,11 +8,9 @@ RSpec.describe 'Workouts', type: :request do
 
   # Test suite for GET /workouts
   describe 'GET /workouts' do
-    # make HTTP get request before each example
     before { get '/workouts', params: {}, headers: headers }
 
     it 'returns workouts' do
-      # Note `json` is a custom helper to parse JSON responses
       expect(json).not_to be_empty
       expect(json.size).to eq(10)
     end
@@ -52,7 +50,6 @@ RSpec.describe 'Workouts', type: :request do
 
   # Test suite for POST /workouts
   describe 'POST /workouts' do
-    # valid payload
     let(:valid_attributes) { { name: 'Morning run' }.to_json }
 
     context 'when the request is valid' do
