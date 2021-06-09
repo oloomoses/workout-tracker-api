@@ -3,7 +3,8 @@ class TrackItsController < ApplicationController
   before_action :set_workout_track_it, only: %i[show update destroy]
 
   def index
-    json_response(@workout.track_its)
+    @track_its = @workout.track_its.where(user_id: current_user.id)
+    json_response(@track_its)
   end
 
   def show
